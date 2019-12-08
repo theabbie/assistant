@@ -39,7 +39,7 @@ result.fulfillmentMessages = [
 result.payload.google.richResponse.items.push({
             "basicCard": {
               "title": ct,
-              "subtitle": "From Chiri",
+              "subtitle": cs,
               "formattedText": cd,
               "image": {
                 "url": img,
