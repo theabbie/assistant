@@ -52,25 +52,29 @@ return result;
 app.post("/*", async function(req,res) {
 var q = req.body.queryResult.queryText
 if (req.body.queryResult.queryText) {
-if (q.startsWith("watch ")) {
-var movie = q.split("watch ").reverse()[0];
+if (q.startsWith("find ")) {
+var movie = q.split("find ").reverse()[0];
 var mg = (await axios("https://typi.tk/?url=https://thepiratebay.org/search/"+movie+"/0/0/1&sel=a[title=%27Download%20this%20torrent%20using%20magnet%27]&attribs=href&static=true")).data[0].attrib;
 store.set(movie,mg);
-res.json(create("Movie found on torrent",false,["stream "+movie]));
+res.json(create("Movie found on torrent",false,["add "+movie]));
 }
-else if (q.startsWith("stream ")) {
-var movie = q.split("stream ").reverse()[0];
+else if (q.startsWith("add ")) {
+var movie = q.split("add ").reverse()[0];
 var add = await axios("https://stream.ooh.now.sh/add?m="+store.get(movie));
 res.json(create("Get your movie",false,["get "+movie]));
 }
 else if (q.startsWith("get ")) {
 var path = (await axios("https://stream.ooh.now.sh/get")).data;
+res.json(create("All done",false,["load "+path]));
+}
+else if (q.startsWith("load ")) {
+var path = q.split("load ").reverse()[0];
 var link = (await axios("https://stream.ooh.now.sh"+path)).data;
 res.json(create(link,false));
 }
 else {
 var data = (await axios("http://www.omdbapi.com/?t="+q+"&apikey=2d58d444")).data;
-if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["watch "+data.Title]))}
+if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["find "+data.Title]))}
 else {res.json(create("Movie Not Found",false))}
 }
 }
