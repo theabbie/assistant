@@ -12,7 +12,7 @@ res.json({
         "items": [
           {
             "simpleResponse": {
-              "textToSpeech": "hello"
+              "textToSpeech": req.body.queryResult.queryText
             }
           }
         ]
