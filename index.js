@@ -1,8 +1,10 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
+app.use(express.json());
 
 app.post("/*", function(req,res) {
   res.json({
-      "fulfillmentText": "This is a text response",
+      "fulfillmentText": req.body.queryResult.queryText,
       "fulfillmentMessages": [
         {
           "card": {
