@@ -4,14 +4,14 @@ app.use(express.json());
 
 app.post("/*", function(req,res) {
 res.json({
-"fulfillmentText": req.body.queryResult.queryText,
+"fulfillmentText": req.body.queryResult.queryText.split(" ").reverse().join(" "),
 "google": {
     "expectUserResponse": true,
     "richResponse": {
       "items": [
         {
           "simpleResponse": {
-            "textToSpeech": "this is a simple response"
+            "textToSpeech": req.body.queryResult.queryText
           }
         }
       ]
