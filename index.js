@@ -5,22 +5,11 @@ app.use(express.json());
 app.post("/*", function(req,res) {
 /*
 res.json({
-"fulfillmentText": req.body.queryResult.queryText.split(" ").reverse().join(" "),
-"google": {
-    "expectUserResponse": true,
-    "richResponse": {
-      "items": [
-        {
-          "simpleResponse": {
-            "textToSpeech": req.body.queryResult.queryText
-          }
-        }
-      ]
-    }
-  }
+"fulfillmentText": req.body.queryResult.queryText.split(" ").reverse().join(" ")
 })
 */
 res.json({
+  "fulfillmentText": req.body.queryResult.queryText,
   "payload": {
     "google": {
       "expectUserResponse": true,
