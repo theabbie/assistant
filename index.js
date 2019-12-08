@@ -28,43 +28,10 @@ res.json({
         "items": [
           {
             "simpleResponse": {
-              "textToSpeech": "Choose a item"
+              "textToSpeech": "this is a simple response"
             }
           }
         ]
-      },
-      "systemIntent": {
-        "intent": "actions.intent.OPTION",
-        "data": {
-          "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
-          "listSelect": {
-            "title": "Hello",
-            "items": [
-              {
-                "optionInfo": {
-                  "key": "first title key"
-                },
-                "description": "first description",
-                "image": {
-                  "url": "https://theabbie.github.io/files/logo.png",
-                  "accessibilityText": "first alt"
-                },
-                "title": "first title"
-              },
-              {
-                "optionInfo": {
-                  "key": "second"
-                },
-                "description": "second description",
-                "image": {
-                  "url": "https://lh3.googleusercontent.com/Nu3a6F80WfixUqf_ec_vgXy_c0-0r4VLJRXjVFF_X_CIilEu8B9fT35qyTEj_PEsKw",
-                  "accessibilityText": "second alt"
-                },
-                "title": "second title"
-              }
-            ]
-          }
-        }
       }
     }
   }
