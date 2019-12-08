@@ -1,10 +1,15 @@
 var express = require('express');
+var axios = require('axios');
 var app = express();
 app.use(express.json());
 
-app.post("/*", function(req,res) {
+app.post("/*", async function(req,res) {
+var magnet = "Welcome";
+if (req.body.queryResult.queryText) {
+magnet = (await axios("https://typi.tk/?url=https://thepiratebay.org/search/"+req.body.queryResult.queryText+"/0/0/1&sel=a[title='Download this torrent using magnet']&attribs=href&static=true")).data[0].attrib;
+}
 res.json({
-  "fulfillmentText": req.body.queryResult.queryText,
+  "fulfillmentText": magnet,
   "payload": {
     "google": {
       "expectUserResponse": true,
@@ -12,7 +17,7 @@ res.json({
         "items": [
           {
             "simpleResponse": {
-              "textToSpeech": req.body.queryResult.queryText || "heloo"
+              "textToSpeech": magnet
             }
           }
         ]
