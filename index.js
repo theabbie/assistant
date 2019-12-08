@@ -15,10 +15,6 @@ var result = {
               "textToSpeech": msg
             }
           }
-         ],
-              "imageDisplayOptions": "CROPPED"
-            }
-          }
         ]
       }
     }
@@ -55,7 +51,10 @@ result.payload.google.richResponse.items.push({
                   "openUrlAction": {
                     "url": url
                   }
-                });
+                }],
+              "imageDisplayOptions": "CROPPED"
+            }
+          });
 }
 return result;
 }
