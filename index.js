@@ -5,21 +5,6 @@ app.use(express.json());
 app.post("/*", function(req,res) {
   res.json({
       "fulfillmentText": req.body.queryResult.queryText,
-      "fulfillmentMessages": [
-        {
-          "card": {
-            "title": req.body.queryResult.queryText,
-            "subtitle": req.body.queryResult.queryText,
-            "imageUri": "https://theabbie.github.io/files/logo.png",
-            "buttons": [
-              {
-                "text": "Go",
-                "postback": "https://theabbie.github.io/"
-              }
-            ]
-          }
-        }
-      ],
       "source": "https://theabbie.github.io",
       "payload": {
         "google": {
