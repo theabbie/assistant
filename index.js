@@ -3,11 +3,9 @@ var app = express();
 app.use(express.json());
 
 app.post("/*", function(req,res) {
-res.json(
-{
+res.json({
 "fulfillmentText": "hello world",
-{
-  "google": {
+"google": {
     "expectUserResponse": true,
     "richResponse": {
       "items": [
@@ -19,9 +17,6 @@ res.json(
       ]
     }
   }
-}
 })
-}
-)
 
 app.listen(process.env.PORT);
