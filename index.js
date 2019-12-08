@@ -73,6 +73,7 @@ var link = (await axios("https://stream.ooh.now.sh"+path)).data;
 res.json(create("Here is your Link",["","","","","Open","https://theabbie.github.io/player?video="+link]));
 }
 else {
+var add = await axios("https://stream.ooh.now.sh/delete");
 var data = (await axios("http://www.omdbapi.com/?t="+q+"&apikey=2d58d444")).data;
 if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["find "+data.Title]))}
 else {res.json(create("Movie Not Found",false))}
