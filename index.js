@@ -20,61 +20,55 @@ res.json({
   }
 })
 */
-res.json(    {
-      "fulfillmentText": "This is a text response",
-      "fulfillmentMessages": [
-        {
-          "card": {
-            "title": "card title",
-            "subtitle": "card text",
-            "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
-            "buttons": [
-              {
-                "text": "button text",
-                "postback": "https://assistant.google.com/"
-              }
-            ]
+res.json({
+  "payload": {
+    "google": {
+      "expectUserResponse": true,
+      "richResponse": {
+        "items": [
+          {
+            "simpleResponse": {
+              "textToSpeech": "Choose a item"
+            }
           }
-        }
-      ],
-      "source": "example.com",
-      "payload": {
-        "google": {
-          "expectUserResponse": true,
-          "richResponse": {
+        ]
+      },
+      "systemIntent": {
+        "intent": "actions.intent.OPTION",
+        "data": {
+          "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
+          "listSelect": {
+            "title": "Hello",
             "items": [
               {
-                "simpleResponse": {
-                  "textToSpeech": "this is a simple response"
-                }
+                "optionInfo": {
+                  "key": "first title key"
+                },
+                "description": "first description",
+                "image": {
+                  "url": "/assistant/images/badges/XPM_BADGING_GoogleAssistant_VER.png",
+                  "accessibilityText": "first alt"
+                },
+                "title": "first title"
+              },
+              {
+                "optionInfo": {
+                  "key": "second"
+                },
+                "description": "second description",
+                "image": {
+                  "url": "https://lh3.googleusercontent.com/Nu3a6F80WfixUqf_ec_vgXy_c0-0r4VLJRXjVFF_X_CIilEu8B9fT35qyTEj_PEsKw",
+                  "accessibilityText": "second alt"
+                },
+                "title": "second title"
               }
             ]
           }
-        },
-        "facebook": {
-          "text": "Hello, Facebook!"
-        },
-        "slack": {
-          "text": "This is a text response for Slack."
-        }
-      },
-      "outputContexts": [
-        {
-          "name": "projects/${PROJECT_ID}/agent/sessions/${SESSION_ID}/contexts/context name",
-          "lifespanCount": 5,
-          "parameters": {
-            "param": "param value"
-          }
-        }
-      ],
-      "followupEventInput": {
-        "name": "event name",
-        "languageCode": "en-US",
-        "parameters": {
-          "param": "param value"
         }
       }
-    });
+    }
+  }
+});
 })
 
 app.listen(process.env.PORT);
