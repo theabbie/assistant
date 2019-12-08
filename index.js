@@ -4,7 +4,7 @@ app.use(express.json());
 
 app.post("/*", function(req,res) {
 res.json({
-"fulfillmentText": req.body.queryResult.queryText
+"fulfillmentText": req.body.queryResult.queryText,
 "google": {
     "expectUserResponse": true,
     "richResponse": {
