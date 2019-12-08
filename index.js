@@ -40,10 +40,10 @@ result.payload.google.richResponse.items.push({
               "imageDisplayOptions": "CROPPED"
             }
           });
+        }
 if (sugg) {
 result.payload.google.richResponse.suggestions = [];
 sugg.forEach(function(x) {result.payload.google.richResponse.suggestions.push({"title": x})})
-}
 }
 return result;
 }
