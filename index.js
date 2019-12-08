@@ -53,9 +53,9 @@ var q = req.body.queryResult.queryText
 if (req.body.queryResult.queryText) {
 if (q.startsWith("watch ")) {
 var movie = q.split("watch ").reverse()[0];
+setTimeout(function () {res.json(create("Movie found on torrent",false,["stream "+movie]));},9500);
 var mg = (await axios("https://typi.tk/?url=https://thepiratebay.org/search/"+movie+"/0/0/1&sel=a[title=%27Download%20this%20torrent%20using%20magnet%27]&attribs=href&static=true")).data[0].attrib;
 var add = await axios("https://stream.ooh.now.sh/add?m="+mg);
-res.json(create("Movie found on torrent",false,["stream "+movie]));
 }
 else if (q.startsWith("stream ")) {
 var path = (await axios("https://stream.ooh.now.sh/get")).data;
