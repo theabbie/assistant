@@ -63,7 +63,7 @@ app.post("/*", async function(req,res) {
 //req.body.queryResult.queryText
 if (req.body.queryResult.queryText) {
 var data = (await axios("http://www.omdbapi.com/?t="+req.body.queryResult.queryText+"&apikey=2d58d444")).data;
-if (data.Title) {res.json(create("Movie Found",true,data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title))};
+if (data.Title) {res.json(create("Movie Found",true,data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title))}
 else {res.json(create("Movie Not Found",false))}
 }
 else {
