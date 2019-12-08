@@ -46,7 +46,7 @@ res.json({
                 },
                 "description": "first description",
                 "image": {
-                  "url": "/assistant/images/badges/XPM_BADGING_GoogleAssistant_VER.png",
+                  "url": "https://theabbie.github.io/files/logo.png",
                   "accessibilityText": "first alt"
                 },
                 "title": "first title"
