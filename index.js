@@ -3,11 +3,6 @@ var app = express();
 app.use(express.json());
 
 app.post("/*", function(req,res) {
-/*
-res.json({
-"fulfillmentText": req.body.queryResult.queryText.split(" ").reverse().join(" ")
-})
-*/
 res.json({
   "fulfillmentText": req.body.queryResult.queryText,
   "payload": {
@@ -17,7 +12,7 @@ res.json({
         "items": [
           {
             "simpleResponse": {
-              "textToSpeech": "this is a simple response"
+              "textToSpeech": req.body.queryResult.queryText
             }
           }
         ]
