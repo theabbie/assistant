@@ -8,19 +8,19 @@ app.post("/*", function(req,res) {
       "fulfillmentMessages": [
         {
           "card": {
-            "title": "card title",
-            "subtitle": "card text",
-            "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+            "title": req.body.queryResult.queryText,
+            "subtitle": req.body.queryResult.queryText,
+            "imageUri": "https://theabbie.github.io/files/logo.png",
             "buttons": [
               {
-                "text": "button text",
-                "postback": "https://assistant.google.com/"
+                "text": "Go",
+                "postback": "https://theabbie.github.io/"
               }
             ]
           }
         }
       ],
-      "source": "example.com",
+      "source": "https://theabbie.github.io",
       "payload": {
         "google": {
           "expectUserResponse": true,
@@ -28,17 +28,17 @@ app.post("/*", function(req,res) {
             "items": [
               {
                 "simpleResponse": {
-                  "textToSpeech": "this is a simple response"
+                  "textToSpeech": req.body.queryResult.queryText
                 }
               }
             ]
           }
         },
         "facebook": {
-          "text": "Hello, Facebook!"
+          "text": req.body.queryResult.queryText
         },
         "slack": {
-          "text": "This is a text response for Slack."
+          "text": req.body.queryResult.queryText
         }
       },
       "outputContexts": [
