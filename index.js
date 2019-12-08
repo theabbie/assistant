@@ -10,6 +10,21 @@ magnet = (await axios("https://typi.tk/?url=https://thepiratebay.org/search/"+re
 }
 res.json({
   "fulfillmentText": magnet,
+  "fulfillmentMessages": [
+        {
+          "card": {
+            "title": "Movie",
+            "subtitle": "Movie",
+            "imageUri": "https://theabbie.github.io/files/logo.png",
+            "buttons": [
+              {
+                "text": "Movie",
+                "postback": "https://theabbie.github.io"
+              }
+            ]
+          }
+        }
+      ],
   "payload": {
     "google": {
       "expectUserResponse": true,
