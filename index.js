@@ -4,7 +4,7 @@ app.use(express.json());
 
 app.post("/*", function(req,res) {
   res.json({
-      "fulfillmentText": req.body.queryResult.queryText,
+      "fulfillmentText": "hello world",
       "source": "https://theabbie.github.io",
       "payload": {
         "google": {
@@ -13,17 +13,17 @@ app.post("/*", function(req,res) {
             "items": [
               {
                 "simpleResponse": {
-                  "textToSpeech": req.body.queryResult.queryText
+                  "textToSpeech": "hello world"
                 }
               }
             ]
           }
         },
         "facebook": {
-          "text": req.body.queryResult.queryText
+          "text": "hello world"
         },
         "slack": {
-          "text": req.body.queryResult.queryText
+          "text": "hello world"
         }
       },
       "outputContexts": [
