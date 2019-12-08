@@ -2,7 +2,7 @@ var express = require('express');
 var axios = require('axios');
 var app = express();
 app.use(express.json());
-function create(msg,card,ct,cd,img,btn,url) {
+function create(msg,card,ct,cs,cd,img,btn,url) {
 var result = {
   "fulfillmentText": msg,
   "payload": {
@@ -61,7 +61,13 @@ return result;
 
 app.post("/*", async function(req,res) {
 //req.body.queryResult.queryText
-res.json(create("Hello",true,"Abbie","I am a Developer","https://theabbie.github.io/files/logo.png","Visit","https://theabbie.github.io/"));
+if (req.body.queryResult.queryText) {
+var data = (await axios("http://www.omdbapi.com/?t="+req.body.queryResult.queryText+"&apikey=2d58d444")).data;
+res.json(create("Movie Found",true,data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title));
+}
+else {
+res.json(create("Enter a movie name",false))
+}
 })
 
 app.listen(process.env.PORT);
