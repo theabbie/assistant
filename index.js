@@ -3,7 +3,7 @@ var axios = require('axios');
 var app = express();
 const store = require('data-store')({ path: '/tmp/foo.json' });
 app.use(express.json());
-function create(msg,card,sugg) {
+function create(msg,card,sugg,data) {
 var result = {
   "fulfillmentText": msg,
   "payload": {
@@ -17,7 +17,8 @@ var result = {
             }
           }
         ]
-      }
+      },
+      "userStorage": data;
     }
   }
 };
@@ -56,7 +57,7 @@ if (q.startsWith("find ")) {
 var movie = q.split("find ").reverse()[0];
 var mg = (await axios("https://typi.tk/?url=https://thepiratebay.org/search/"+movie+"/0/0/1&sel=a[title=%27Download%20this%20torrent%20using%20magnet%27]&attribs=href&static=true")).data[0].attrib;
 store.set(movie,mg);
-res.json(create("Movie found on torrent",false,["add "+movie]));
+res.json(create("Movie found on torrent",false,["add "+movie],mg));
 }
 else if (q.startsWith("add ")) {
 setTimeout(function () {res.json(create("Get your movie",false,["get "+movie]));},9500);
