@@ -18,7 +18,7 @@ var result = {
           }
         ]
       },
-      "userStorage": data;
+      "userStorage": data
     }
   }
 };
