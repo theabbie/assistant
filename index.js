@@ -61,7 +61,7 @@ return result;
 
 app.post("/*", async function(req,res) {
 //req.body.queryResult.queryText
-res.json(create("Hello",false));
+res.json(create("Hello",true,"Abbie","I am a Developer","https://theabbie.github.io/files/logo.png","Visit","https://theabbie.github.io/"));
 })
 
 app.listen(process.env.PORT);
