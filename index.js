@@ -1,6 +1,7 @@
 var express = require('express');
 var axios = require('axios');
 var app = express();
+const store = require('data-store')({ path: process.cwd() + '/foo.json' });
 app.use(express.json());
 function create(msg,card,sugg) {
 var result = {
