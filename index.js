@@ -49,11 +49,18 @@ return result;
 }
 
 app.post("/*", async function(req,res) {
-//req.body.queryResult.queryText
+var q = req.body.queryResult.queryText
 if (req.body.queryResult.queryText) {
-var data = (await axios("http://www.omdbapi.com/?t="+req.body.queryResult.queryText+"&apikey=2d58d444")).data;
-if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["yes","no"]))}
+if (q.startsWith("watch ")) {
+var movie = q.split("watch ").reverse()[0];
+var mg = (await axios("https://typi.tk/?url=https://thepiratebay.org/search/"+movie+"/0/0/1&sel=a[title=%27Download%20this%20torrent%20using%20magnet%27]&attribs=href&static=true")).data[0].attrib;
+res.json(create("Movie found on torrent",false,["stream "+movie]));
+}
+else {
+var data = (await axios("http://www.omdbapi.com/?t="+q+"&apikey=2d58d444")).data;
+if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["watch "+data.Title]))}
 else {res.json(create("Movie Not Found",false))}
+}
 }
 else {
 res.json(create("Enter a movie name",false))
