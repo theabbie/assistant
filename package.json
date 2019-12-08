@@ -1,0 +1,15 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "description": "simple",
+  "main": "index.js",
+  "scripts": {
+    "build": "next build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "4.17.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
