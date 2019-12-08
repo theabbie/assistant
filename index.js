@@ -70,7 +70,7 @@ res.json(create("All done",false,["load "+path]));
 else if (q.startsWith("load ")) {
 var path = q.split("load ").reverse()[0];
 var link = (await axios("https://stream.ooh.now.sh"+path)).data;
-res.json(create(link,false));
+res.json(create("Here is your Link",["Click to Play","","","","","https://theabbie.github.io/player?video="+link]));
 }
 else {
 var data = (await axios("http://www.omdbapi.com/?t="+q+"&apikey=2d58d444")).data;
