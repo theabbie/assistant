@@ -28,7 +28,7 @@ result.payload.google.richResponse.items.push({
               "formattedText": card[2],
               "image": {
                 "url": card[3],
-                "accessibilityText": ct
+                "accessibilityText": card[0]
               },
               "buttons": [
                 {
