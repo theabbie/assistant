@@ -62,12 +62,12 @@ res.json(create("Movie found on torrent",false,["add "+movie],mg));
 else if (q.startsWith("add ")) {
 setTimeout(function () {res.json(create("Get your movie",false,["get "+movie]));},9800);
 var movie = q.split("add ").reverse()[0];
-var add = await axios("https://stream.ooh.now.sh/add?m="+store.get(movie));
+var add = await axios("https://typi.tk/?url=https://stream.ooh.now.sh/add?m="+encodeURI(store.get(movie))+"&t=1&raw=true");
 res.json(create("Get your movie",false,["get "+movie]));
 }
 else if (q.startsWith("get ")) {
 setTimeout(function () {res.json(create("Please Try Again",false,[q]));},9800)
-var path = (await axios("https://stream.ooh.now.sh/get")).data;
+var path = (await axios("https://typi.tk/?url=https://stream.ooh.now.sh/get&t=1&sel=pre")).data[0].text;
 res.json(create("All done",false,["load "+path]));
 }
 else if (q.startsWith("load ")) {
