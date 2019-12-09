@@ -60,20 +60,33 @@ store.set(movie,mg);
 res.json(create("Movie found on torrent",false,["add "+movie],mg));
 }
 else if (q.startsWith("add ")) {
-setTimeout(function () {res.json(create("Get your movie",false,["get "+movie]));},9800);
 var movie = q.split("add ").reverse()[0];
-var add = await axios("https://typi.tk/?url=https://stream.ooh.now.sh/add?m="+encodeURI(store.get(movie))+"&t=1&raw=true");
+try {
+var add = await axios("https://typi.tk/?url=https://stream.ooh.now.sh/add?m="+encodeURI(store.get(movie))+"&t=1&raw=true",{timeout: 9800});
 res.json(create("Get your movie",false,["get "+movie]));
 }
+catch(err) {
+res.json(create("Get your movie",false,["get "+movie]));
+}
+}
 else if (q.startsWith("get ")) {
-setTimeout(function () {res.json(create("Please Try Again",false,[q]));},9800)
-var path = (await axios("https://typi.tk/?url=https://stream.ooh.now.sh/get&t=1&sel=pre")).data[0].text;
+try {
+var path = (await axios("https://typi.tk/?url=https://stream.ooh.now.sh/get&t=1&sel=pre",{timeout: 9800})).data[0].text;
 res.json(create("All done",false,["load "+path]));
+}
+catch(err) {
+res.json(create("Please Try Again",false,[q]));
+}
 }
 else if (q.startsWith("load ")) {
 var path = q.split("load ").reverse()[0];
-var link = (await axios("https://stream.ooh.now.sh"+path)).data;
+try {
+var link = (await axios("https://stream.ooh.now.sh"+path,{timeout: 9800})).data;
 res.json(create("Here is your Link",["","","","","Open","https://theabbie.page.link/?link="+encodeURIComponent(link)]));
+}
+catch(err) {
+res.json(create("Try Again",false,["load "+path]));
+}
 }
 else {
 var data = (await axios("http://www.omdbapi.com/?t="+q+"&apikey=2d58d444")).data;
