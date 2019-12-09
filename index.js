@@ -85,7 +85,7 @@ else if (q.startsWith("load ")) {
 var path = q.split("load ").reverse()[0];
 try {
 var link = (await axios("https://stream.ooh.now.sh"+path,{timeout: 9800})).data;
-res.json(create("Here is your Link",["","","","","Open","https://theabbie.page.link/?link="+encodeURIComponent(link)]));
+res.json(create("Here is your Link",["","","","","Open","https://theabbie.page.link/?link="+encodeURIComponent(link)],["exit"]));
 }
 catch(err) {
 res.json(create("Try Again",false,["load "+path]));
