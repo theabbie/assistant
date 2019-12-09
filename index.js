@@ -53,7 +53,10 @@ return result;
 app.post("/*", async function(req,res) {
 var q = req.body.queryResult.queryText
 if (req.body.queryResult.queryText) {
-if (q.startsWith("find ")) {
+if (q=="actions_intent_CANCEL") {
+res.json(create("Bubiee, Hope you liked it"))
+}
+else if (q.startsWith("find ")) {
 var movie = q.split("find ").reverse()[0];
 var mg = (await axios("https://typi.tk/?url=https://thepiratebay.org/search/"+movie+"/0/0/1&sel=a[title=%27Download%20this%20torrent%20using%20magnet%27]&attribs=href&static=true")).data[0].attrib;
 store.set(movie,mg);
