@@ -23,6 +23,21 @@ var result = {
   }
 };
 if (card) {
+result.fulfillmentMessages = [
+        {
+          "card": {
+            "title": card[0],
+            "subtitle": card[2],
+            "imageUri": card[3],
+            "buttons": [
+              {
+                "text": card[4],
+                "postback": card[5]
+              }
+            ]
+          }
+        }
+      ];
 result.payload.google.richResponse.items.push({
             "basicCard": {
               "title": card[0],
