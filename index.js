@@ -60,11 +60,13 @@ store.set(movie,mg);
 res.json(create("Movie found on torrent",false,["add "+movie],mg));
 }
 else if (q.startsWith("add ")) {
-setTimeout(function () {res.json(create("Get your movie",false,["get "+movie]));},9500);
+setTimeout(function () {res.json(create("Get your movie",false,["get "+movie]));},9800);
 var movie = q.split("add ").reverse()[0];
 var add = await axios("https://stream.ooh.now.sh/add?m="+store.get(movie));
+res.json(create("Get your movie",false,["get "+movie]));
 }
 else if (q.startsWith("get ")) {
+setTimeout(function () {res.json(create("Please Try Again",false,[q]));},9800)
 var path = (await axios("https://stream.ooh.now.sh/get")).data;
 res.json(create("All done",false,["load "+path]));
 }
