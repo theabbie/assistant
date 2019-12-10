@@ -78,7 +78,7 @@ res.json(create("Movie found on torrent",false,["add "+movie,"exit"],mg));
 else if (q.startsWith("add ")) {
 var movie = q.split("add ").reverse()[0];
 try {
-var add = await axios("https://stream.ooh.now.sh/add?m="+encodeURI(req.body.originalDetectIntentRequest.payload.user.userStorage),{timeout: 9800});
+var add = await axios("https://stream.ooh.now.sh/add?m="+encodeURI(req.body.originalDetectIntentRequest.payload.user.userStorage),{timeout: 9950});
 res.json(create("Get your movie",false,["get "+movie,"exit"]));
 }
 catch(err) {
