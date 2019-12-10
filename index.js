@@ -96,12 +96,20 @@ res.json(create("Please Try Again",false,[q,"exit"]));
 }
 else if (q.startsWith("load ")) {
 try {
-var link = (await axios("https://stream.ooh.now.sh"+req.body.originalDetectIntentRequest.payload.user.userStorage,{timeout: 9900})).data;
-res.json(create("Here is your Link",["","","","","Open","https://theabbie.page.link/?link="+encodeURIComponent(link)],["exit"]));
+var link = (await axios("https://stream.ooh.now.sh",{timeout: 9900})).data;
+res.json(create("Here is your Link, Tell me to delete the movie after you are done watching",["","","","","Open","https://theabbie.page.link/?link="+encodeURIComponent(link)],["exit"]));
 }
 catch(err) {
 res.json(create("Try Again",false,["load "+path,"exit"]));
 }
+}
+else if (q.startsWith("delete ")) {
+try {
+var link = await axios("https://stream.ooh.now.sh/delete",{timeout: 9900});
+res.json(create("Done",false,["exit"]));
+}
+catch(err) {
+res.json(create("Try Again",false,[q,"exit"]));
 }
 else {
 var data = (await axios("http://www.omdbapi.com/?t="+q+"&apikey=2d58d444")).data;
