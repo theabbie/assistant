@@ -78,7 +78,7 @@ res.json(create("Movie found on torrent",false,["add "+movie,"exit"],mg));
 else if (q.startsWith("add ")) {
 var movie = q.split("add ").reverse()[0];
 try {
-var add = await axios("https://stream.ooh.now.sh/add?m="+encodeURI(req.body.originalDetectIntentRequest.payload.user.userStorage),{timeout: 9950});
+var add = await axios("https://stream.ooh.now.sh/add?m="+encodeURI(req.body.originalDetectIntentRequest.payload.user.userStorage),{timeout: 9900});
 res.json(create("Get your movie",false,["get "+movie,"exit"]));
 }
 catch(err) {
@@ -87,7 +87,7 @@ res.json(create("Get your movie",false,["get "+movie,"exit"]));
 }
 else if (q.startsWith("get ")) {
 try {
-var path = (await axios("https://stream.ooh.now.sh/get",{timeout: 9950})).data;
+var path = (await axios("https://stream.ooh.now.sh/get",{timeout: 9900})).data;
 res.json(create("All done",false,["load "+path,"exit"]));
 }
 catch(err) {
@@ -97,7 +97,7 @@ res.json(create("Please Try Again",false,[q,"exit"]));
 else if (q.startsWith("load ")) {
 var path = q.split("load ").reverse()[0];
 try {
-var link = (await axios("https://stream.ooh.now.sh"+path,{timeout: 9950})).data;
+var link = (await axios("https://stream.ooh.now.sh"+path,{timeout: 9900})).data;
 res.json(create("Here is your Link",["","","","","Open","https://theabbie.page.link/?link="+encodeURIComponent(link)],["exit"]));
 }
 catch(err) {
