@@ -73,25 +73,25 @@ res.json(create("Bubiee, Hope you liked it"))
 else if (q.startsWith("find ")) {
 var movie = q.split("find ").reverse()[0];
 var mg = (await axios("https://typi.tk/?url=https://thepiratebay.org/search/"+movie+"/0/0/1&sel=a[title=%27Download%20this%20torrent%20using%20magnet%27]&attribs=href&static=true")).data[0].attrib;
-res.json(create("Movie found on torrent",false,["add "+movie],mg));
+res.json(create("Movie found on torrent",false,["add "+movie,"exit"],mg));
 }
 else if (q.startsWith("add ")) {
 var movie = q.split("add ").reverse()[0];
 try {
 var add = await axios("https://typi.tk/?url=https://stream.ooh.now.sh/add?m="+encodeURI(req.body.originalDetectIntentRequest.payload.user.userStorage)+"&t=1&raw=true",{timeout: 9800});
-res.json(create("Get your movie",false,["get "+movie]));
+res.json(create("Get your movie",false,["get "+movie,"exit"]));
 }
 catch(err) {
-res.json(create("Get your movie",false,["get "+movie]));
+res.json(create("Get your movie",false,["get "+movie,"exit"]));
 }
 }
 else if (q.startsWith("get ")) {
 try {
 var path = (await axios("https://typi.tk/?url=https://stream.ooh.now.sh/get&t=1&sel=pre",{timeout: 9800})).data[0].text;
-res.json(create("All done",false,["load "+path]));
+res.json(create("All done",false,["load "+path,"exit"]));
 }
 catch(err) {
-res.json(create("Please Try Again",false,[q]));
+res.json(create("Please Try Again",false,[q,"exit"]));
 }
 }
 else if (q.startsWith("load ")) {
@@ -101,17 +101,17 @@ var link = (await axios("https://stream.ooh.now.sh"+path,{timeout: 9800})).data;
 res.json(create("Here is your Link",["","","","","Open","https://theabbie.page.link/?link="+encodeURIComponent(link)],["exit"]));
 }
 catch(err) {
-res.json(create("Try Again",false,["load "+path]));
+res.json(create("Try Again",false,["load "+path,"exit"]));
 }
 }
 else {
 var data = (await axios("http://www.omdbapi.com/?t="+q+"&apikey=2d58d444")).data;
-if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["find "+data.Title]))}
-else {res.json(create("Movie Not Found",false))}
+if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["find "+data.Title,"exit"]))}
+else {res.json(create("Movie Not Found",false,["exit"]))}
 }
 }
 else {
-res.json(create("Enter a movie name",false))
+res.json(create("Enter a movie name",false,["exit"]))
 }
 })
 
