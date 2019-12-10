@@ -111,6 +111,7 @@ res.json(create("Done",false,["exit"]));
 catch(err) {
 res.json(create("Try Again",false,[q,"exit"]));
 }
+}
 else {
 var data = (await axios("http://www.omdbapi.com/?t="+q+"&apikey=2d58d444")).data;
 if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["find "+data.Title,"exit"]))}
