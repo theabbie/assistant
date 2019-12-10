@@ -1,7 +1,6 @@
 var express = require('express');
 var axios = require('axios');
 var app = express();
-const store = require('data-store')({ path: '/tmp/foo.json' });
 app.use(express.json());
 function create(msg,card,sugg,data) {
 var result = {
@@ -74,13 +73,12 @@ res.json(create("Bubiee, Hope you liked it"))
 else if (q.startsWith("find ")) {
 var movie = q.split("find ").reverse()[0];
 var mg = (await axios("https://typi.tk/?url=https://thepiratebay.org/search/"+movie+"/0/0/1&sel=a[title=%27Download%20this%20torrent%20using%20magnet%27]&attribs=href&static=true")).data[0].attrib;
-store.set(movie,mg);
 res.json(create("Movie found on torrent",false,["add "+movie],mg));
 }
 else if (q.startsWith("add ")) {
 var movie = q.split("add ").reverse()[0];
 try {
-var add = await axios("https://typi.tk/?url=https://stream.ooh.now.sh/add?m="+encodeURI(store.get(movie))+"&t=1&raw=true",{timeout: 9800});
+var add = await axios("https://typi.tk/?url=https://stream.ooh.now.sh/add?m="+encodeURI(req.body.originalDetectIntentRequest.payload.user.userStorage)+"&t=1&raw=true",{timeout: 9800});
 res.json(create("Get your movie",false,["get "+movie]));
 }
 catch(err) {
