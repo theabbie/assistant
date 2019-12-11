@@ -132,7 +132,7 @@ else {res.json(create("Movie Not Found",false,["exit"]))}
 }
 }
 else {
-res.json(create((req.body.originalDetectIntentRequest.payload.user.idToken?("Hello "+jwt.decode(req.body.originalDetectIntentRequest.payload.user.idToken).name+","):"")+"Enter a movie name",false,["exit"]))
+res.json(create((req.body.originalDetectIntentRequest.payload.user.idToken?("Hello "+jwt.decode(req.body.originalDetectIntentRequest.payload.user.idToken).name+", "):"")+"Enter a movie name",false,["exit"]))
 }
 })
 
