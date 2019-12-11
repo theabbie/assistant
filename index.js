@@ -127,7 +127,7 @@ res.json(create("Try Again",false,[q,"exit"]));
 }
 else {
 var data = (await axios("http://www.omdbapi.com/?t="+q+"&apikey=2d58d444")).data;
-if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["find "+data.Title,"exit"]:["find "+data.Title,"exit"]))}
+if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["find "+data.Title,"exit"]))}
 else {res.json(create("Movie Not Found",false,["exit"]))}
 }
 }
