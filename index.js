@@ -1,5 +1,6 @@
 var express = require('express');
 var axios = require('axios');
+var jwt = require("jsonwebtoken");
 var app = express();
 app.use(express.json());
 function create(msg,card,sugg,data) {
@@ -126,12 +127,12 @@ res.json(create("Try Again",false,[q,"exit"]));
 }
 else {
 var data = (await axios("http://www.omdbapi.com/?t="+q+"&apikey=2d58d444")).data;
-if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["find "+data.Title,"exit"]))}
+if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],req.body.originalDetectIntentRequest.payload.user.idToken?["find "+data.Title,"exit"]:["find "+data.Title,"create an account","exit"]))}
 else {res.json(create("Movie Not Found",false,["exit"]))}
 }
 }
 else {
-res.json(create("Enter a movie name",false,["exit"]))
+res.json(create((req.body.originalDetectIntentRequest.payload.user.idToken?"Hello "+jwt.decode(req.body.originalDetectIntentRequest.payload.user.idToken).name+",","")+"Enter a movie name",false,["exit"]))
 }
 })
 
