@@ -109,7 +109,7 @@ res.json(create("Please Try Again",false,[q,"exit"]));
 }
 else if (q.startsWith("load ")) {
 try {
-var link = (await axios("https://stream.ooh.now.sh"+req.body.originalDetectIntentRequest.payload.user.userStorage,{timeout: 9900})).data;
+var link = (await axios("https://stream.ooh.now.sh"+req.body.originalDetectIntentRequest.payload.user.userStorage,{timeout: 9800})).data;
 res.json(create("Here is your Link, Tell me to delete the movie after you are done watching",["","","","","Open","https://theabbie.page.link/?link="+encodeURIComponent(link)],["delete "+q.split("load ").reverse()[0],"exit"]));
 }
 catch(err) {
