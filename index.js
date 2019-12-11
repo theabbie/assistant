@@ -67,8 +67,20 @@ return result;
 app.post("/*", async function(req,res) {
 var q = req.body.queryResult.queryText
 if (req.body.queryResult.queryText) {
-if (q=="actions_intent_CANCEL") {
-res.json(create("Bubiee, Hope you liked it"))
+if (q=="create an account") {
+res.json({
+  "payload": {
+    "google": {
+      "expectUserResponse": true,
+      "systemIntent": {
+        "intent": "actions.intent.SIGN_IN",
+        "data": {
+          "@type": "type.googleapis.com/google.actions.v2.SignInValueSpec"
+        }
+      }
+    }
+  }
+})
 }
 else if (q.startsWith("find ")) {
 var movie = q.split("find ").reverse()[0];
