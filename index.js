@@ -65,6 +65,11 @@ sugg.forEach(function(x) {result.payload.google.richResponse.suggestions.push({"
 return result;
 }
 
+app.post("/talk", async function(req,res) {
+var q = req.body.queryResult.queryText;
+res.json(create("Okay"))
+})
+
 app.post("/*", async function(req,res) {
 var q = req.body.queryResult.queryText
 if (req.body.queryResult.queryText) {
