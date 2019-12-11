@@ -110,7 +110,7 @@ res.json(create("Please Try Again",false,[q,"exit"]));
 else if (q.startsWith("load ")) {
 try {
 var link = (await axios("https://stream.ooh.now.sh"+req.body.originalDetectIntentRequest.payload.user.userStorage,{timeout: 9800})).data;
-res.json(create("Here is your Link, Tell me to delete the movie after you are done watching",["","","","","Open","https://theabbie.page.link/?link="+encodeURIComponent(link)],["delete "+q.split("load ").reverse()[0],"exit"]));
+res.json(create("Here is your Link, Tell me to delete the movie after you are done watching",["","","","","Open","https://theabbie.page.link/?link="+encodeURIComponent(link)],req.body.originalDetectIntentRequest.payload.user.idToken?["delete "+q.split("load ").reverse()[0],"exit"]:["delete "+q.split("load ").reverse()[0],"create an account","exit"]));
 }
 catch(err) {
 res.json(create("Try Again",false,[q,"exit"]));
@@ -127,12 +127,12 @@ res.json(create("Try Again",false,[q,"exit"]));
 }
 else {
 var data = (await axios("http://www.omdbapi.com/?t="+q+"&apikey=2d58d444")).data;
-if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],req.body.originalDetectIntentRequest.payload.user.idToken?["find "+data.Title,"exit"]:["find "+data.Title,"create an account","exit"]))}
+if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["find "+data.Title,"exit"]:["find "+data.Title,"exit"]))}
 else {res.json(create("Movie Not Found",false,["exit"]))}
 }
 }
 else {
-res.json(create((req.body.originalDetectIntentRequest.payload.user.idToken?("Hello "+jwt.decode(req.body.originalDetectIntentRequest.payload.user.idToken).name+", "):"")+"Enter a movie name",false,["exit"]))
+res.json(create((req.body.originalDetectIntentRequest.payload.user.idToken?("Hello "+jwt.decode(req.body.originalDetectIntentRequest.payload.user.idToken).name+", "):"")+"Enter a movie name",false,req.body.originalDetectIntentRequest.payload.user.idToken?["exit"]:["create an account","exit"]))
 }
 })
 
