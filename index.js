@@ -159,10 +159,7 @@ catch(err) {
 res.json(create("Try Again",false,[q,"exit"]));
 }
 }
-else if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.MAIN") {
-res.json(create((req.body.originalDetectIntentRequest.payload.user.idToken?("Hello "+jwt.decode(req.body.originalDetectIntentRequest.payload.user.idToken).name+", "):"")+"Enter a movie name or tell me to search movie",false,req.body.originalDetectIntentRequest.payload.user.idToken?["exit"]:["create an account","exit"]))
-}
-else {
+else if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.TEXT") {
 var list = (await axios("http://api.themoviedb.org/3/search/movie?api_key=a7219d99028ec2f029a458c81ba22b37&query="+q)).data.results.map(x => [x.title,x["release_date"],"http://image.tmdb.org/t/p/w185"+x["poster_path"]]);
 if (list.length==0) {res.json(create("Movie Not Found",false,["exit"]))}
 else if (list.length==1) {
@@ -173,6 +170,9 @@ else {res.json(create("Movie Not Found",false,["exit"]))}
 else {
 res.json(create("I found this",false,false,false,["Movies matching your query",...list]));
 }
+}
+else {
+res.json(create((req.body.originalDetectIntentRequest.payload.user.idToken?("Hello "+jwt.decode(req.body.originalDetectIntentRequest.payload.user.idToken).name+", "):"")+"Enter a movie name or tell me to search movie",false,req.body.originalDetectIntentRequest.payload.user.idToken?["exit"]:["create an account","exit"]))
 }
 })
 
