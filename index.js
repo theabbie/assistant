@@ -167,7 +167,14 @@ else {res.json(create("Movie Not Found",false,["exit"]))}
 }
 }
 else {
+if (req.body.originalDetectIntentRequest.payload.inputs[0].intent==actions.intent.OPTION) {
+var data = (await axios("http://www.omdbapi.com/?t="+req.body.originalDetectIntentRequest.payload.inputs[0].rawInputs[0].query+"&apikey=2d58d444")).data;
+if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["find "+data.Title,"exit"]))}
+else {res.json(create("Movie Not Found",false,["exit"]))}
+}
+else {
 res.json(create((req.body.originalDetectIntentRequest.payload.user.idToken?("Hello "+jwt.decode(req.body.originalDetectIntentRequest.payload.user.idToken).name+", "):"")+"Enter a movie name or tell me to search movie",false,req.body.originalDetectIntentRequest.payload.user.idToken?["exit"]:["create an account","exit"]))
+}
 }
 })
 
