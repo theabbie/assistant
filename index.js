@@ -125,19 +125,6 @@ var movie = q.split("find ").reverse()[0];
 var mg = (await axios("https://typi.tk/?url=https://thepiratebay.org/search/"+movie+"/0/0/1&sel=a[title=%27Download%20this%20torrent%20using%20magnet%27]&attribs=href&static=true")).data[0].attrib;
 res.json(create("Movie found on torrent",false,["add "+movie,"exit"],mg));
 }
-else if (q.startsWith("search ")) {
-var query = q.split("search ").reverse()[0];
-var list = (await axios("http://api.themoviedb.org/3/search/movie?api_key=a7219d99028ec2f029a458c81ba22b37&query="+query)).data.results.map(x => [x.title,x["release_date"],"http://image.tmdb.org/t/p/w185"+x["poster_path"]]);
-if (list.length==0) {res.json(create("Movie Not Found",false,["exit"]))}
-else if (list.length==1) {
-var data = (await axios("http://www.omdbapi.com/?t="+query+"&apikey=2d58d444")).data;
-if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["find "+data.Title,"exit"]))}
-else {res.json(create("Movie Not Found",false,["exit"]))}
-}
-else {
-res.json(create("I found this",false,false,false,["Movies matching your query",...list]));
-}
-}
 else if (q.startsWith("add ")) {
 var movie = q.split("add ").reverse()[0];
 try {
@@ -176,9 +163,16 @@ res.json(create("Try Again",false,[q,"exit"]));
 }
 }
 else {
+var list = (await axios("http://api.themoviedb.org/3/search/movie?api_key=a7219d99028ec2f029a458c81ba22b37&query="+q)).data.results.map(x => [x.title,x["release_date"],"http://image.tmdb.org/t/p/w185"+x["poster_path"]]);
+if (list.length==0) {res.json(create("Movie Not Found",false,["exit"]))}
+else if (list.length==1) {
 var data = (await axios("http://www.omdbapi.com/?t="+q+"&apikey=2d58d444")).data;
 if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["find "+data.Title,"exit"]))}
 else {res.json(create("Movie Not Found",false,["exit"]))}
+}
+else {
+res.json(create("I found this",false,false,false,["Movies matching your query",...list]));
+}
 }
 })
 
