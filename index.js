@@ -3,7 +3,7 @@ var axios = require('axios');
 var jwt = require("jsonwebtoken");
 var app = express();
 app.use(express.json());
-function create(msg,card,sugg,data) {
+function create(msg,card,sugg,data,list) {
 var result = {
   "fulfillmentText": msg,
   "payload": {
@@ -62,57 +62,37 @@ if (sugg) {
 result.payload.google.richResponse.suggestions = [];
 sugg.forEach(function(x) {result.payload.google.richResponse.suggestions.push({"title": x})})
 }
+if (list) {
+var title = list[0];
+list.shift();
+result.payload.google.systemIntent = {
+        "intent": "actions.intent.OPTION",
+        "data": {
+          "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
+          "listSelect": {
+            "title": list[0],
+            "items": list.map(function(x) {return {
+                "optionInfo": {
+                  "key": x,
+                  "synonyms": [x]
+                },
+                "description": x,
+                "image": {
+                  "url": "https://storage.googleapis.com/actionsresources/logo_assistant_2x_64dp.png",
+                  "accessibilityText": x
+                },
+                "title": x
+              }})
+          }
+        }
+      };
+}
 return result;
 }
 
 app.post("/talk", async function(req,res) {
 var q = req.body.queryResult.queryText;
-res.json({
-  "payload": {
-    "google": {
-      "expectUserResponse": true,
-      "richResponse": {
-        "items": [
-          {
-            "simpleResponse": {
-              "textToSpeech": "Here's an example of a browsing carousel."
-            }
-          },
-          {
-            "carouselBrowse": {
-              "items": [
-                {
-                  "title": "Title of item 1",
-                  "openUrlAction": {
-                    "url": "https://example.com"
-                  },
-                  "description": "Description of item 1",
-                  "footer": "Item 1 footer",
-                  "image": {
-                    "url": "https://storage.googleapis.com/actionsresources/logo_assistant_2x_64dp.png",
-                    "accessibilityText": "Image alternate text"
-                  }
-                },
-                {
-                  "title": "Title of item 2",
-                  "openUrlAction": {
-                    "url": "https://example.com"
-                  },
-                  "description": "Description of item 2",
-                  "footer": "Item 2 footer",
-                  "image": {
-                    "url": "https://storage.googleapis.com/actionsresources/logo_assistant_2x_64dp.png",
-                    "accessibilityText": "Image alternate text"
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  }
-})
+res.json(create("hello",false,false,false,["Title","First Item","Second Item","Third Item"]))
 })
 
 app.post("/*", async function(req,res) {
