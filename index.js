@@ -121,7 +121,7 @@ res.json(create("Movie found on torrent",false,["add "+movie,"exit"],mg));
 else if (q.startsWith("search ")) {
 var query = q.split("search ").reverse()[0];
 var list = (await axios("http://api.themoviedb.org/3/search/movie?api_key=a7219d99028ec2f029a458c81ba22b37&query="+query)).data.results.map(x => [x.title,x["release_date"],"http://image.tmdb.org/t/p/w185"+x["poster_path"]]);
-res.json(create("I found this",false,false,false,["Movies matching your query",...list]));
+res.json(create("I found this",false,false,false,["Movies matching your query",...list,["","",""]]));
 }
 else if (q.startsWith("add ")) {
 var movie = q.split("add ").reverse()[0];
@@ -167,7 +167,7 @@ else {res.json(create("Movie Not Found",false,["exit"]))}
 }
 }
 else {
-if (req.body.originalDetectIntentRequest.payload.inputs[0].intent==actions.intent.OPTION) {
+if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.OPTION") {
 var data = (await axios("http://www.omdbapi.com/?t="+req.body.originalDetectIntentRequest.payload.inputs[0].rawInputs[0].query+"&apikey=2d58d444")).data;
 if (data.Title) {res.json(create("Movie Found",[data.Title,data.Released,data.Plot,data.Poster,"More","https://google.com/search?q="+data.Title],["find "+data.Title,"exit"]))}
 else {res.json(create("Movie Not Found",false,["exit"]))}
