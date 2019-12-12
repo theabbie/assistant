@@ -70,7 +70,7 @@ result.payload.google.systemIntent = {
         "data": {
           "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
           "listSelect": {
-            "title": list[0],
+            "title": title,
             "items": list.map(function(x) {return {
                 "optionInfo": {
                   "key": x,
