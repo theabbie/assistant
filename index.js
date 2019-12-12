@@ -120,7 +120,7 @@ res.json(create("Movie found on torrent",false,["add "+movie,"exit"],mg));
 }
 else if (q.startsWith("search ")) {
 var query = q.split("search ").reverse()[0];
-var list = (await axios("http://api.themoviedb.org/3/search/movie?api_key=a7219d99028ec2f029a458c81ba22b37&query="+query)).data.results.map(x => [x.title,x["release_date"],"http://image.tmdb.org/t/p/w185"+x["poster_path"].substring(1)]);
+var list = (await axios("http://api.themoviedb.org/3/search/movie?api_key=a7219d99028ec2f029a458c81ba22b37&query="+query)).data.results.map(x => [x.title,x["release_date"],"http://image.tmdb.org/t/p/w185"+x["poster_path"]]);
 res.json(create("I found this",false,false,false,list));
 }
 else if (q.startsWith("add ")) {
