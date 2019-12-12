@@ -71,15 +71,15 @@ result.payload.google.systemIntent = {
             "title": "title",
             "items": list.map(function(x) {return {
                 "optionInfo": {
-                  "key": x,
-                  "synonyms": x
+                  "key": Array.isArray(x)?x[0]:x,
+                  "synonyms": Array.isArray(x)?[x[0]]:[x]
                 },
-                "description": x,
+                "description": Array.isArray(x)?x[1]:x,
                 "image": {
-                  "url": "https://storage.googleapis.com/actionsresources/logo_assistant_2x_64dp.png",
-                  "accessibilityText": x
+                  "url": Array.isArray(x)?x[2]:"https://storage.googleapis.com/actionsresources/logo_assistant_2x_64dp.png",
+                  "accessibilityText": Array.isArray(x)?x[0]:x
                 },
-                "title": x
+                "title": Array.isArray(x)?x[0]:x
               }})
           }
         }
