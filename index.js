@@ -91,8 +91,13 @@ return result;
 }
 
 app.post("/talk", async function(req,res) {
-var q = req.body.queryResult.queryText;
+var q = req.body.queryResult.queryText || req.body.originalDetectIntentRequest.payload.inputs[0].rawInputs[0].query;
+if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.MAIN") {
 res.json(create("hello",false,false,false,["Title","First Item","Second Item","Third Item"]))
+}
+else {
+res.json(q);
+}
 })
 
 app.post("/*", async function(req,res) {
