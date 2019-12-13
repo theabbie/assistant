@@ -96,7 +96,7 @@ if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.inte
 res.json(create("hello",false,false,false,["Title","First Item","Second Item","Third Item"]))
 }
 else {
-res.json(q);
+res.json(create(q));
 }
 })
 
