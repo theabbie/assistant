@@ -93,13 +93,14 @@ return result;
 app.post("/talk", async function(req,res) {
 var q = req.body.queryResult.queryText || req.body.originalDetectIntentRequest.payload.inputs[0].rawInputs[0].query;
 if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.MAIN" || q=="restart") {
-res.json(create("What would you like to do?",false,["exit"],false,["Tools",["Shorten a url","Enter a long url and shorten it","https://miro.medium.com/max/300/1*jcRqWsK1oYk3f77sbiDYEg.png"],["Find Definition","get meaning of words","https://www.collinsdictionary.com/images/full/dictionary_168552845.jpg"],["Lyrics","Find song lyrics","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRkeSDnPvD5rOPwfxlGSFKWqmCmNdpwXwlfbCAKq-hLoK2Vcg0B"],["Download youtube video","Youtube","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRvE71wFt70IDFsb9j9_CIzkNh_JkhxMMCbRoqlnZTliPtWSNjL"]]))
+res.json(create("What would you like to do?",false,["exit"],false,["Tools",["Shorten a url","Enter a long url and shorten it","https://miro.medium.com/max/300/1*jcRqWsK1oYk3f77sbiDYEg.png"],["Find Definition","get meaning of words","https://www.collinsdictionary.com/images/full/dictionary_168552845.jpg"],["Lyrics","Find song lyrics","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRkeSDnPvD5rOPwfxlGSFKWqmCmNdpwXwlfbCAKq-hLoK2Vcg0B"],["Download youtube video","Youtube","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRvE71wFt70IDFsb9j9_CIzkNh_JkhxMMCbRoqlnZTliPtWSNjL"],["Get coordinates","get coordinates from address","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRXzTfFwIsObocu7R64VcSW9l5wXPtxjd0j-aSiRfIGjmIgyk5c"]]))
 }
 else if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.OPTION") {
 if (q=="Shorten a url") {res.json(create("Enter a url",false,["exit","restart"],q))}
 if (q=="Find Definition") {res.json(create("Enter a word",false,["exit","restart"],q))}
 if (q=="Lyrics") {res.json(create("Enter song name",false,["exit","restart"],q))}
 if (q=="Download youtube video") {res.json(create("Enter youtube video url",false,["exit","restart"],q))}
+if (q=="Get coordinates") {res.json(create("Enter Address",false,["exit","restart"],q))}
 }
 else {
 if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Shorten a url") {
@@ -113,6 +114,9 @@ res.json(create((await axios("https://typi.tk/?url=https://www.google.com/search
 }
 else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Download youtube video") {
 res.json(create("Here is your download link",["","","","","Download",(await axios("https://typi.tk/?url=https://ssyoutube.com/watch?v="+q.split("v=").reverse()[0]+"&attribs=href&sel=.link-group%20a&t=5000")).data[0].attrib],["exit","restart"],""))
+}
+else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Get coordinates") {
+res.json(create((await axios("https://typi.tk/?url=https://google.com/maps/search/"+q+"&new=true&t=2000")).data.split("@").reverse()[0].split(",").slice(0,2).join(","),false,["exit","restart"],""))
 }
 else {
 res.json(create("Please select a tool",false,["exit"]))
