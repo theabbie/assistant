@@ -93,10 +93,19 @@ return result;
 app.post("/talk", async function(req,res) {
 var q = req.body.queryResult.queryText || req.body.originalDetectIntentRequest.payload.inputs[0].rawInputs[0].query;
 if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.MAIN") {
-res.json(create("What would you like to do?",false,false,false,["Tools",["Shorten a url","Enter a long url and shorten it","https://miro.medium.com/max/300/1*jcRqWsK1oYk3f77sbiDYEg.png"],["Find Definition","get meaning of words","https://www.collinsdictionary.com/images/full/dictionary_168552845.jpg"]]))
+res.json(create("What would you like to do?",false,["exit"],false,["Tools",["Shorten a url","Enter a long url and shorten it","https://miro.medium.com/max/300/1*jcRqWsK1oYk3f77sbiDYEg.png"],["Find Definition","get meaning of words","https://www.collinsdictionary.com/images/full/dictionary_168552845.jpg"]]))
+}
+else if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.OPTION") {
+if (q=="Shorten a url") {res.json(create("Enter a url",false,["exit"],q))}
+if (q=="Find Definition") {res.json(create("Enter a word",false,["exit"],q))}
 }
 else {
-res.json(create(q));
+if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Shorten a url") {
+res.json(create("got it 1"))
+}
+if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Find Definition") {
+res.json(create("got it 2"))
+}
 }
 })
 
