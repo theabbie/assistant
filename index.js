@@ -101,7 +101,7 @@ res.json(create(q));
 })
 
 app.post("/*", async function(req,res) {
-var q = req.body.queryResult.queryText || req.body.originalDetectIntentRequest.payload.inputs[0].rawInputs[0].query || "";
+var q = req.body.queryResult.queryText || req.body.originalDetectIntentRequest.payload.inputs[0].rawInputs[0].query || "ask movie robot";
 if (q=="create an account") {
 res.json({
   "payload": {
