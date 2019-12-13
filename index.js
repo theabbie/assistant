@@ -93,7 +93,7 @@ return result;
 app.post("/talk", async function(req,res) {
 var q = req.body.queryResult.queryText || req.body.originalDetectIntentRequest.payload.inputs[0].rawInputs[0].query;
 if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.MAIN") {
-res.json(create("hello",false,false,false,["Title","First Item","Second Item","Third Item"]))
+res.json(create("What would you like to do?",false,false,false,["Tools",["Shorten a url","Enter a long url and shorten it","https://miro.medium.com/max/300/1*jcRqWsK1oYk3f77sbiDYEg.png"],["Find Definition","get meaning of words","https://www.collinsdictionary.com/images/full/dictionary_168552845.jpg"]]))
 }
 else {
 res.json(create(q));
