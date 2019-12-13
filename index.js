@@ -101,7 +101,7 @@ if (q=="Find Definition") {res.json(create("Enter a word",false,["exit","restart
 }
 else {
 if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Shorten a url") {
-res.json(create((await axios("https://is.gd/create.php?format=simple&url="+q)).data),false,["exit","restart"],"")
+res.json(create((await axios("https://is.gd/create.php?format=simple&url="+decodeURIComponent(q))).data),false,["exit","restart"],"")
 }
 if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Find Definition") {
 res.json(create((await axios("https://typi.tk/?url=https://www.lexico.com/en/definition/"+q+"&sel=.ind&attribs=classs&static=true")).data.map(x=>x.text).join("\n"),false,["exit","restart"],""))
