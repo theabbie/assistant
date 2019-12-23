@@ -102,7 +102,7 @@ if (q=="Lyrics") {res.json(create("Enter song name",false,["exit","restart"],q))
 if (q=="Download youtube video") {res.json(create("Enter youtube video url",false,["exit","restart"],q))}
 if (q=="Get coordinates") {res.json(create("Enter Address",false,["exit","restart"],q))}
 if (q=="News") {res.json(create("Here are the top headlines",false,["exit","restart"],"",(await axios("https://newsapi.org/v2/top-headlines?country=us&apiKey=5becfbf90a534dca83aaa44198f9e387")).data.articles.map(x=>[x.title,x.description,x.urlToImage])))}
-if (q=="generate QR code") {create("Enter Data",false,["exit","restart"],q))}
+if (q=="generate QR code") {create("Enter Data",false,["exit","restart"],q)}
 }
 else {
 if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Shorten a url") {
