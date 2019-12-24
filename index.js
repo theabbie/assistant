@@ -117,7 +117,7 @@ else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Lyrics"
 res.json(create((await axios("https://typi.tk/?url=https://www.google.com/search?q="+q+" lyrics&sel=span[jsname]&attribs=classs&t=1")).data.map(x=>x.text).join("\n")+"\n source: musixmatch.com",false,["exit","restart"],""))
 }
 else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Download youtube video") {
-res.json(create("Here is your download link",["","","","","Download",(await axios("https://typi.tk/?url=https://ssyoutube.com/watch?v="+q.split("v=").reverse()[0]+"&attribs=href&sel=.link-group%20a&t=5000")).data[0].attrib],["exit","restart"],""))
+res.json(create("Here is your download link",["","","","","Download",(await axios("https://typi.tk/?url=https://sfrom.net/"+q+"&attribs=href&sel=.link-group%20a&t=5000")).data[0].attrib],["exit","restart"],""))
 }
 else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Get coordinates") {
 res.json(create((await axios("https://typi.tk/?url=https://google.com/maps/search/"+q+"&new=true&t=2000")).data.split("@").reverse()[0].split(",").slice(0,2).join(","),false,["exit","restart"],""))
