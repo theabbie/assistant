@@ -111,10 +111,10 @@ if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Shorten a ur
 res.json(create((await axios("https://is.gd/create.php?format=simple&url="+q)).data,false,["exit","restart"],""))
 }
 else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Find Definition") {
-res.json(create((await axios("https://typi.tk/?url=https://www.lexico.com/en/definition/"+q+"&sel=.ind&attribs=classs&static=true")).data.map(x=>x.text).join("\n"),false,["exit","restart"],""))
+res.json(create((await axios("https://typi.tk/?url=https://www.lexico.com/en/definition/"+q+"&sel=.ind&attribs=classs&static=true")).data.map(x=>x.text).join("\n")+"\n source: Lexico.com",false,["exit","restart"],""))
 }
 else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Lyrics") {
-res.json(create((await axios("https://typi.tk/?url=https://www.google.com/search?q="+q+" lyrics&sel=span[jsname]&attribs=classs&t=1")).data.map(x=>x.text).join("\n")+"\n source: Lexico.com",false,["exit","restart"],""))
+res.json(create((await axios("https://typi.tk/?url=https://www.google.com/search?q="+q+" lyrics&sel=span[jsname]&attribs=classs&t=1")).data.map(x=>x.text).join("\n")+"\n source: musixmatch.com",false,["exit","restart"],""))
 }
 else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Download youtube video") {
 res.json(create("Here is your download link",["","","","","Download",(await axios("https://typi.tk/?url=https://ssyoutube.com/watch?v="+q.split("v=").reverse()[0]+"&attribs=href&sel=.link-group%20a&t=5000")).data[0].attrib],["exit","restart"],""))
