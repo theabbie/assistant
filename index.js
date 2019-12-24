@@ -106,6 +106,7 @@ else if (q=="generate QR code") {res.json(create("Enter Data",false,["exit","res
 else {res.json(create("Search google for "+q,["","","","","Search","https://google.com/search?q="+q],["exit","restart"]))}
 }
 else {
+try {
 if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Shorten a url") {
 res.json(create((await axios("https://is.gd/create.php?format=simple&url="+q)).data,false,["exit","restart"],""))
 }
@@ -126,6 +127,10 @@ res.json(create("QR Code",["","","","https://chart.googleapis.com/chart?cht=qr&c
 }
 else {
 res.json(create("Please select a tool",false,["exit"]))
+}
+}
+catch (err) {
+res.json(create("Sonething wrong happened, try again, and if it still causes error, something must be wrong in your input",false,["exit","restart"]));
 }
 }
 })
