@@ -97,12 +97,12 @@ res.json(create("What would you like to do?",false,["exit"],false,["Tools",["Sho
 }
 else if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.OPTION") {
 if (q=="Shorten a url") {res.json(create("Enter a url",false,["exit","restart"],q))}
-if (q=="Find Definition") {res.json(create("Enter a word",false,["exit","restart"],q))}
-if (q=="Lyrics") {res.json(create("Enter song name",false,["exit","restart"],q))}
-if (q=="Download youtube video") {res.json(create("Enter youtube video url",false,["exit","restart"],q))}
-if (q=="Get coordinates") {res.json(create("Enter Address",false,["exit","restart"],q))}
-if (q=="News") {res.json(create("Here are the top headlines",false,["exit","restart"],"",["Top Headlines",...(await axios("https://newsapi.org/v2/top-headlines?country=us&apiKey=5becfbf90a534dca83aaa44198f9e387")).data.articles.slice(0,6).map(x=>[x.title,x.description,x.urlToImage])]))}
-if (q=="generate QR code") {res.json(create("Enter Data",false,["exit","restart"],q))}
+else if (q=="Find Definition") {res.json(create("Enter a word",false,["exit","restart"],q))}
+else if (q=="Lyrics") {res.json(create("Enter song name",false,["exit","restart"],q))}
+else if (q=="Download youtube video") {res.json(create("Enter youtube video url",false,["exit","restart"],q))}
+else if (q=="Get coordinates") {res.json(create("Enter Address",false,["exit","restart"],q))}
+else if (q=="News") {res.json(create("Here are the top headlines",false,["exit","restart"],"",["Top Headlines",...(await axios("https://newsapi.org/v2/top-headlines?country=us&apiKey=5becfbf90a534dca83aaa44198f9e387")).data.articles.slice(0,6).map(x=>[x.title,x.description,x.urlToImage])]))}
+else if (q=="generate QR code") {res.json(create("Enter Data",false,["exit","restart"],q))}
 else {res.json(create("Search google for "+q,["","","","","Search","https://google.com/search?q="+q],["exit","restart"]))}
 }
 else {
