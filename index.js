@@ -103,6 +103,7 @@ if (q=="Download youtube video") {res.json(create("Enter youtube video url",fals
 if (q=="Get coordinates") {res.json(create("Enter Address",false,["exit","restart"],q))}
 if (q=="News") {res.json(create("Here are the top headlines",false,["exit","restart"],"",["Top Headlines",...(await axios("https://newsapi.org/v2/top-headlines?country=us&apiKey=5becfbf90a534dca83aaa44198f9e387")).data.articles.slice(0,6).map(x=>[x.title,x.description,x.urlToImage])]))}
 if (q=="generate QR code") {res.json(create("Enter Data",false,["exit","restart"],q))}
+else {res.json(create("Search google for "+q,["","","","","Search","https://google.com/search?q="+q],["exit","restart"]))}
 }
 else {
 if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Shorten a url") {
