@@ -92,8 +92,8 @@ return result;
 
 app.post("/talk", async function(req,res) {
 var q = req.body.queryResult.queryText || req.body.originalDetectIntentRequest.payload.inputs[0].rawInputs[0].query;
-if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.MAIN" || q=="restart") {
-res.json(create((req.body.originalDetectIntentRequest.payload.user.idToken?("Hello "+jwt.decode(req.body.originalDetectIntentRequest.payload.user.idToken).name+", "):"")+"What would you like to do?",false,req.body.originalDetectIntentRequest.payload.user.idToken?["exit"]:["create an account","exit"],false,["Tools",["Shorten a url","Enter a long url and shorten it","https://miro.medium.com/max/300/1*jcRqWsK1oYk3f77sbiDYEg.png"],["Find Definition","get meaning of words","https://www.collinsdictionary.com/images/full/dictionary_168552845.jpg"],["Lyrics","Find song lyrics","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRkeSDnPvD5rOPwfxlGSFKWqmCmNdpwXwlfbCAKq-hLoK2Vcg0B"],["Download youtube video","Youtube","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRvE71wFt70IDFsb9j9_CIzkNh_JkhxMMCbRoqlnZTliPtWSNjL"],["Get coordinates","get coordinates from address","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRXzTfFwIsObocu7R64VcSW9l5wXPtxjd0j-aSiRfIGjmIgyk5c"],["News","Top news","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQEHhixWywDlPMR9r7oJ_0bZnN8DqxHOo1yoDlOSRIwh-Af8NoO"],["generate QR code","QR code","https://firebase.google.com/docs/ml-kit/images/examples/qrcode.png"]]))
+if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.MAIN" || q=="restart" || req.body.originalDetectIntentRequest.payload.user.userStorage=="reset") {
+res.json(create((req.body.originalDetectIntentRequest.payload.user.idToken?("Hello "+jwt.decode(req.body.originalDetectIntentRequest.payload.user.idToken).name+", "):"")+"What would you like to do?",false,req.body.originalDetectIntentRequest.payload.user.idToken?["exit"]:["create an account","exit"],"reset",["Tools",["Shorten a url","Enter a long url and shorten it","https://miro.medium.com/max/300/1*jcRqWsK1oYk3f77sbiDYEg.png"],["Find Definition","get meaning of words","https://www.collinsdictionary.com/images/full/dictionary_168552845.jpg"],["Lyrics","Find song lyrics","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRkeSDnPvD5rOPwfxlGSFKWqmCmNdpwXwlfbCAKq-hLoK2Vcg0B"],["Download youtube video","Youtube","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRvE71wFt70IDFsb9j9_CIzkNh_JkhxMMCbRoqlnZTliPtWSNjL"],["Get coordinates","get coordinates from address","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRXzTfFwIsObocu7R64VcSW9l5wXPtxjd0j-aSiRfIGjmIgyk5c"],["News","Top news","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQEHhixWywDlPMR9r7oJ_0bZnN8DqxHOo1yoDlOSRIwh-Af8NoO"],["generate QR code","QR code","https://firebase.google.com/docs/ml-kit/images/examples/qrcode.png"]]))
 }
 else if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.OPTION") {
 if (q=="Shorten a url") {res.json(create("Enter a url",false,["exit","restart"],q))}
@@ -103,7 +103,7 @@ else if (q=="Download youtube video") {res.json(create("Enter youtube video url"
 else if (q=="Get coordinates") {res.json(create("Enter Address",false,["exit","restart"],q))}
 else if (q=="News") {res.json(create("Here are the top headlines",false,["exit","restart"],"",["Top Headlines",...(await axios("https://newsapi.org/v2/top-headlines?country=us&apiKey=5becfbf90a534dca83aaa44198f9e387")).data.articles.slice(0,6).map(x=>[x.title,x.description,x.urlToImage])]))}
 else if (q=="generate QR code") {res.json(create("Enter Data",false,["exit","restart"],q))}
-else {res.json(create("Search google for "+q,["","","","","Search","https://google.com/search?q="+q],["exit","restart"]))}
+else {res.json(create("Search google for "+q,["","","","","Search","https://google.com/search?q="+q],["exit","restart"],"reset"))}
 }
 else {
 try {
@@ -123,22 +123,22 @@ res.json({
 })
 }
 else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Shorten a url") {
-res.json(create((await axios("https://is.gd/create.php?format=simple&url="+q)).data,false,["exit","restart"],""))
+res.json(create((await axios("https://is.gd/create.php?format=simple&url="+q)).data,false,["exit","restart"],"reset"))
 }
 else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Find Definition") {
-res.json(create((await axios("https://typi.tk/?url=https://www.lexico.com/en/definition/"+q+"&sel=.ind&attribs=classs&static=true")).data.map(x=>x.text).join("\n")+"\n source: Lexico.com",false,["exit","restart"],""))
+res.json(create((await axios("https://typi.tk/?url=https://www.lexico.com/en/definition/"+q+"&sel=.ind&attribs=classs&static=true")).data.map(x=>x.text).join("\n")+"\n source: Lexico.com",false,["exit","restart"],"reset"))
 }
 else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Lyrics") {
-res.json(create((await axios("https://typi.tk/?url=https://www.google.com/search?q="+q+" lyrics&sel=span[jsname]&attribs=classs&t=1")).data.map(x=>x.text).join("\n")+"\n source: musixmatch.com",false,["exit","restart"],""))
+res.json(create((await axios("https://typi.tk/?url=https://www.google.com/search?q="+q+" lyrics&sel=span[jsname]&attribs=classs&t=1")).data.map(x=>x.text).join("\n")+"\n source: musixmatch.com",false,["exit","restart"],"reset"))
 }
 else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Download youtube video") {
-res.json(create("Here is your download link",["","","","","Download",(await axios("https://typi.tk/?url=https://sfrom.net/"+q+"&attribs=href&sel=.link-group%20a&t=5000")).data[0].attrib],["exit","restart"],""))
+res.json(create("Here is your download link",["","","","","Download",(await axios("https://typi.tk/?url=https://sfrom.net/"+q+"&attribs=href&sel=.link-group%20a&t=5000")).data[0].attrib],["exit","restart"],"reset"))
 }
 else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Get coordinates") {
-res.json(create((await axios("https://typi.tk/?url=https://google.com/maps/search/"+q+"&new=true&t=2000")).data.split("@").reverse()[0].split(",").slice(0,2).join(","),false,["exit","restart"],""))
+res.json(create((await axios("https://typi.tk/?url=https://google.com/maps/search/"+q+"&new=true&t=2000")).data.split("@").reverse()[0].split(",").slice(0,2).join(","),false,["exit","restart"],"reset"))
 }
 else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="generate QR code") {
-res.json(create("QR Code",["","","","https://chart.googleapis.com/chart?cht=qr&chl="+q+"&choe=UTF-8&chs=100x100"],["exit","restart"],""))
+res.json(create("QR Code",["","","","https://chart.googleapis.com/chart?cht=qr&chl="+q+"&choe=UTF-8&chs=100x100"],["exit","restart"],"reset"))
 }
 else {
 res.json(create("Please select a tool",false,["exit"]))
