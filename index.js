@@ -92,7 +92,7 @@ return result;
 
 app.post("/talk", async function(req,res) {
 var q = req.body.queryResult.queryText || req.body.originalDetectIntentRequest.payload.inputs[0].rawInputs[0].query;
-if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.MAIN" || q=="restart" || req.body.originalDetectIntentRequest.payload.user.userStorage=="reset") {
+if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.MAIN" || q=="restart") {
 res.json(create((req.body.originalDetectIntentRequest.payload.user.idToken?("Hello "+jwt.decode(req.body.originalDetectIntentRequest.payload.user.idToken).name+", "):"")+"What would you like to do?",false,req.body.originalDetectIntentRequest.payload.user.idToken?["exit"]:["create an account","exit"],"reset",["Tools",["Shorten a url","Enter a long url and shorten it","https://miro.medium.com/max/300/1*jcRqWsK1oYk3f77sbiDYEg.png"],["Find Definition","get meaning of words","https://www.collinsdictionary.com/images/full/dictionary_168552845.jpg"],["Lyrics","Find song lyrics","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRkeSDnPvD5rOPwfxlGSFKWqmCmNdpwXwlfbCAKq-hLoK2Vcg0B"],["Download youtube video","Youtube","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRvE71wFt70IDFsb9j9_CIzkNh_JkhxMMCbRoqlnZTliPtWSNjL"],["Get coordinates","get coordinates from address","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRXzTfFwIsObocu7R64VcSW9l5wXPtxjd0j-aSiRfIGjmIgyk5c"],["News","Top news","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQEHhixWywDlPMR9r7oJ_0bZnN8DqxHOo1yoDlOSRIwh-Af8NoO"],["generate QR code","QR code","https://firebase.google.com/docs/ml-kit/images/examples/qrcode.png"]]))
 }
 else if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.OPTION") {
@@ -141,7 +141,7 @@ else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="generat
 res.json(create("QR Code",["","","","https://chart.googleapis.com/chart?cht=qr&chl="+q+"&choe=UTF-8&chs=100x100"],["exit","restart"],"reset"))
 }
 else {
-res.json(create("Please select a tool",false,["exit"],"reset"))
+res.json(create((req.body.originalDetectIntentRequest.payload.user.idToken?("Hello "+jwt.decode(req.body.originalDetectIntentRequest.payload.user.idToken).name+", "):"")+"What would you like to do?",false,req.body.originalDetectIntentRequest.payload.user.idToken?["exit"]:["create an account","exit"],"reset",["Tools",["Shorten a url","Enter a long url and shorten it","https://miro.medium.com/max/300/1*jcRqWsK1oYk3f77sbiDYEg.png"],["Find Definition","get meaning of words","https://www.collinsdictionary.com/images/full/dictionary_168552845.jpg"],["Lyrics","Find song lyrics","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRkeSDnPvD5rOPwfxlGSFKWqmCmNdpwXwlfbCAKq-hLoK2Vcg0B"],["Download youtube video","Youtube","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRvE71wFt70IDFsb9j9_CIzkNh_JkhxMMCbRoqlnZTliPtWSNjL"],["Get coordinates","get coordinates from address","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRXzTfFwIsObocu7R64VcSW9l5wXPtxjd0j-aSiRfIGjmIgyk5c"],["News","Top news","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQEHhixWywDlPMR9r7oJ_0bZnN8DqxHOo1yoDlOSRIwh-Af8NoO"],["generate QR code","QR code","https://firebase.google.com/docs/ml-kit/images/examples/qrcode.png"]]))
 }
 }
 catch (err) {
