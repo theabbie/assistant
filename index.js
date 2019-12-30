@@ -93,7 +93,7 @@ return result;
 app.post("/talk", async function(req,res) {
 var q = req.body.queryResult.queryText || req.body.originalDetectIntentRequest.payload.inputs[0].rawInputs[0].query;
 if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.MAIN" || q=="restart") {
-res.json(create("What would you like to do?",false,["exit"],false,["Tools",["Shorten a url","Enter a long url and shorten it","https://miro.medium.com/max/300/1*jcRqWsK1oYk3f77sbiDYEg.png"],["Find Definition","get meaning of words","https://www.collinsdictionary.com/images/full/dictionary_168552845.jpg"],["Lyrics","Find song lyrics","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRkeSDnPvD5rOPwfxlGSFKWqmCmNdpwXwlfbCAKq-hLoK2Vcg0B"],["Download youtube video","Youtube","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRvE71wFt70IDFsb9j9_CIzkNh_JkhxMMCbRoqlnZTliPtWSNjL"],["Get coordinates","get coordinates from address","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRXzTfFwIsObocu7R64VcSW9l5wXPtxjd0j-aSiRfIGjmIgyk5c"],["News","Top news","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQEHhixWywDlPMR9r7oJ_0bZnN8DqxHOo1yoDlOSRIwh-Af8NoO"],["generate QR code","QR code","https://firebase.google.com/docs/ml-kit/images/examples/qrcode.png"]]))
+res.json(create((req.body.originalDetectIntentRequest.payload.user.idToken?("Hello "+jwt.decode(req.body.originalDetectIntentRequest.payload.user.idToken).name+", "):"")"What would you like to do?",false,req.body.originalDetectIntentRequest.payload.user.idToken?["exit"]:["create an account","exit"],false,["Tools",["Shorten a url","Enter a long url and shorten it","https://miro.medium.com/max/300/1*jcRqWsK1oYk3f77sbiDYEg.png"],["Find Definition","get meaning of words","https://www.collinsdictionary.com/images/full/dictionary_168552845.jpg"],["Lyrics","Find song lyrics","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRkeSDnPvD5rOPwfxlGSFKWqmCmNdpwXwlfbCAKq-hLoK2Vcg0B"],["Download youtube video","Youtube","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRvE71wFt70IDFsb9j9_CIzkNh_JkhxMMCbRoqlnZTliPtWSNjL"],["Get coordinates","get coordinates from address","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRXzTfFwIsObocu7R64VcSW9l5wXPtxjd0j-aSiRfIGjmIgyk5c"],["News","Top news","https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQEHhixWywDlPMR9r7oJ_0bZnN8DqxHOo1yoDlOSRIwh-Af8NoO"],["generate QR code","QR code","https://firebase.google.com/docs/ml-kit/images/examples/qrcode.png"]]))
 }
 else if (req.body.originalDetectIntentRequest.payload.inputs[0].intent=="actions.intent.OPTION") {
 if (q=="Shorten a url") {res.json(create("Enter a url",false,["exit","restart"],q))}
@@ -107,7 +107,22 @@ else {res.json(create("Search google for "+q,["","","","","Search","https://goog
 }
 else {
 try {
-if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Shorten a url") {
+if (q=="create an account") {
+res.json({
+  "payload": {
+    "google": {
+      "expectUserResponse": true,
+      "systemIntent": {
+        "intent": "actions.intent.SIGN_IN",
+        "data": {
+          "@type": "type.googleapis.com/google.actions.v2.SignInValueSpec"
+        }
+      }
+    }
+  }
+})
+}
+else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Shorten a url") {
 res.json(create((await axios("https://is.gd/create.php?format=simple&url="+q)).data,false,["exit","restart"],""))
 }
 else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="Find Definition") {
