@@ -141,11 +141,11 @@ else if (req.body.originalDetectIntentRequest.payload.user.userStorage=="generat
 res.json(create("QR Code",["","","","https://chart.googleapis.com/chart?cht=qr&chl="+q+"&choe=UTF-8&chs=100x100"],["exit","restart"],"reset"))
 }
 else {
-res.json(create("Please select a tool",false,["exit"]))
+res.json(create("Please select a tool",false,["exit"],"reset"))
 }
 }
 catch (err) {
-res.json(create("Sonething wrong happened, try again, and if it still causes error, something must be wrong in your input",false,["exit","restart"]));
+res.json(create("Something wrong happened, try again, and if it still causes error, something must be wrong in your input",false,["exit","restart"],"reset"));
 }
 }
 })
