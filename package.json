@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "simple",
   "main": "index.js",
+  "engines": { "node": "12.x" },
   "scripts": {
     "build": "next build",
     "test": "echo \"Error: no test specified\" && exit 1"
