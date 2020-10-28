@@ -123,7 +123,7 @@ res.json(create("Please Try Again",false,[q,"exit"]));
 else if (q.startsWith("load ")) {
 try {
 var link = req.body.originalDetectIntentRequest.payload.user.userStorage;
-res.json(create("Here is your Link, Tell me to delete the movie after you are done watching",false,req.body.originalDetectIntentRequest.payload.user.idToken?["delete "+q.split("load ").reverse()[0],"exit"]:["delete "+q.split("load ").reverse()[0],"create an account","exit"],false,false,[q.split("load ").reverse()[0],link]));
+res.json(create("Here is your Link, Tell me to delete the movie after you are done watching",false,req.body.originalDetectIntentRequest.payload.user.idToken?["delete "+q.split("load ").reverse()[0],"exit"]:["delete "+q.split("load ").reverse()[0],"create an account","exit"],false,false,[q.split("load ").reverse()[0],"https://theabbie.github.io/player?video="+link]));
 }
 catch(err) {
 res.json(create("Try Again",false,[q,"exit"]));
