@@ -3,92 +3,10 @@ var axios = require('axios');
 var jwt = require("jsonwebtoken");
 var app = express();
 app.use(express.json());
-function create(msg,card,sugg,data,list) {
-var result = {
-  "fulfillmentText": msg,
-  "payload": {
-    "google": {
-      "expectUserResponse": true,
-      "richResponse": {
-        "items": [
-          {
-            "simpleResponse": {
-              "textToSpeech": msg
-            }
-          }
-        ]
-      },
-      "userStorage": data
-    }
-  }
-};
-if (card) {
-result.fulfillmentMessages = [
-        {
-          "card": {
-            "title": card[0],
-            "subtitle": card[2],
-            "imageUri": card[3],
-            "buttons": [
-              {
-                "text": card[4],
-                "postback": card[5]
-              }
-            ]
-          }
-        }
-      ];
-result.payload.google.richResponse.items.push({
-            "basicCard": {
-              "title": card[0],
-              "subtitle": card[1],
-              "formattedText": card[2],
-              "image": {
-                "url": card[3],
-                "accessibilityText": card[0]
-              },
-              "buttons": [
-                {
-                  "title": card[4],
-                  "openUrlAction": {
-                    "url": card[5]
-                  }
-                }],
-              "imageDisplayOptions": "CROPPED"
-            }
-          });
-        }
-if (sugg) {
-result.payload.google.richResponse.suggestions = [];
-sugg.forEach(function(x) {result.payload.google.richResponse.suggestions.push({"title": x})})
-}
-if (list) {
-var title = list[0];
-list.shift();
-result.payload.google.systemIntent = {
-        "intent": "actions.intent.OPTION",
-        "data": {
-          "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
-          "listSelect": {
-            "title": title,
-            "items": list.map(function(x) {return {
-                "optionInfo": {
-                  "key": Array.isArray(x)?x[0]:x,
-                  "synonyms": Array.isArray(x)?[x[0]]:[x]
-                },
-                "description": Array.isArray(x)?x[1]:x,
-                "image": {
-                  "url": Array.isArray(x)?x[2]:"https://storage.googleapis.com/actionsresources/logo_assistant_2x_64dp.png",
-                  "accessibilityText": Array.isArray(x)?x[0]:x
-                },
-                "title": Array.isArray(x)?x[0]:x
-              }})
-          }
-        }
-      };
-}
-return result;
-}
+var create = require("google-assistant-response-json");
+var Seedr = require("seedr");
+var seedr = new Seedr();
+seedr.addToken(process.env.stok);
 
 app.post("/talk", async function(req,res) {
 var q = req.body.queryResult.queryText || req.body.originalDetectIntentRequest.payload.inputs[0].rawInputs[0].query;
@@ -178,13 +96,13 @@ else {res.json(create("Movie Not Found",false,["exit"]))}
 }
 else if (q.startsWith("find ")) {
 var movie = q.split("find ").reverse()[0];
-var mg = (await axios("https://typi.tk/?url=https://thepiratebay.org/search/"+movie+"/0/0/1&sel=a[title=%27Download%20this%20torrent%20using%20magnet%27]&attribs=href&static=true")).data[0].attrib;
+var mg = "magnet:?xt=urn:btih:"+(await axios("https://apibay.org/q.php?q="+movie)).data[0]["info_hash"];
 res.json(create("Movie found on torrent",false,["add "+movie,"exit"],mg));
 }
 else if (q.startsWith("add ")) {
 var movie = q.split("add ").reverse()[0];
 try {
-var add = await axios("https://stream.ooh.now.sh/add?m="+encodeURI(req.body.originalDetectIntentRequest.payload.user.userStorage),{timeout: 9900});
+await seedr.addMagnet(req.body.originalDetectIntentRequest.payload.user.userStorage);
 res.json(create("Get your movie",false,["get "+movie,"exit"]));
 }
 catch(err) {
@@ -193,8 +111,10 @@ res.json(create("Get your movie",false,["get "+movie,"exit"]));
 }
 else if (q.startsWith("get ")) {
 try {
-var path = (await axios("https://stream.ooh.now.sh/get",{timeout: 9900})).data;
-res.json(create("All done",false,["load "+q.split("get ").reverse()[0],"exit"],path));
+var list = await seedr.getVideos();
+var id = list.reverse()[0][0].id;
+var f = await seedr.getFile(id);
+res.json(create("All done",false,["load "+q.split("get ").reverse()[0],"exit"],f.url));
 }
 catch(err) {
 res.json(create("Please Try Again",false,[q,"exit"]));
@@ -211,7 +131,6 @@ res.json(create("Try Again",false,[q,"exit"]));
 }
 else if (q.startsWith("delete ")) {
 try {
-var link = await axios("https://stream.ooh.now.sh/delete",{timeout: 9900});
 res.json(create("Done",false,["exit"]));
 }
 catch(err) {
