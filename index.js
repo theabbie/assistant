@@ -124,6 +124,7 @@ else if (q.startsWith("load ")) {
 try {
 var link = req.body.originalDetectIntentRequest.payload.user.userStorage;
 res.json(create("Here is your Link, Tell me to delete the movie after you are done watching",["","","","","Open","https://theabbie.page.link/?link="+encodeURIComponent(link)],req.body.originalDetectIntentRequest.payload.user.idToken?["delete "+q.split("load ").reverse()[0],"exit"]:["delete "+q.split("load ").reverse()[0],"create an account","exit"]));
+}
 catch(err) {
 res.json(create("Try Again",false,[q,"exit"]));
 }
