@@ -122,6 +122,9 @@ res.json(create("Please Try Again",false,[q,"exit"]));
 }
 else if (q.startsWith("delete ")) {
 try {
+var list = await seedr.getVideos();
+var id = list.reverse()[0][0].fid;
+await seedr.deleteFolder(id);
 res.json(create("Done",false,["exit"]));
 }
 catch(err) {
@@ -145,4 +148,4 @@ res.json(create((req.body.originalDetectIntentRequest.payload.user.idToken?("Hel
 }
 })
 
-app.listen(process.env.PORT); 
+app.listen(process.env.PORT);
