@@ -96,7 +96,7 @@ else {res.json(create("Movie Not Found",false,["exit"]))}
 }
 else if (q.startsWith("find ")) {
 var movie = q.split("find ").reverse()[0];
-var mg = "magnet:?xt=urn:btih:"+(await axios("https://apibay.org/q.php?q="+movie)).data[0]["info_hash"];
+var mg = (await axios("https://torrz.techpeg.in/torrent?q="+movie+"&cat=all&inc_wout_cat=1&exc_adult_res=0")).data[0].magnet;
 res.json(create("Movie found on torrent",false,["add "+movie,"exit"],mg));
 }
 else if (q.startsWith("add ")) {
